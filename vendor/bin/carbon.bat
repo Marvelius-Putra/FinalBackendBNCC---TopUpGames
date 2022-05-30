@@ -1,4 +1,4 @@
 @ECHO OFF
 setlocal DISABLEDELAYEDEXPANSION
-SET BIN_TARGET=%~dp0/../nesbot/carbon/bin/carbon
+SET BIN_TARGET=%~dp0/carbon
 php "%BIN_TARGET%" %*

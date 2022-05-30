@@ -31,7 +31,7 @@ class XliffFileLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function load($resource, string $locale, string $domain = 'messages')
+    public function load(mixed $resource, string $locale, string $domain = 'messages'): MessageCatalogue
     {
         if (!class_exists(XmlUtils::class)) {
             throw new RuntimeException('Loading translations from the Xliff format requires the Symfony Config component.');
@@ -57,7 +57,7 @@ class XliffFileLoader implements LoaderInterface
             } else {
                 $dom = XmlUtils::loadFile($resource);
             }
-        } catch (\InvalidArgumentException | XmlParsingException | InvalidXmlException $e) {
+        } catch (\InvalidArgumentException|XmlParsingException|InvalidXmlException $e) {
             throw new InvalidResourceException(sprintf('Unable to load "%s": ', $resource).$e->getMessage(), $e->getCode(), $e);
         }
 
@@ -75,7 +75,7 @@ class XliffFileLoader implements LoaderInterface
         return $catalogue;
     }
 
-    private function extract($dom, MessageCatalogue $catalogue, string $domain)
+    private function extract(\DOMDocument $dom, MessageCatalogue $catalogue, string $domain)
     {
         $xliffVersion = XliffUtils::getVersionNumber($dom);
 
@@ -94,7 +94,7 @@ class XliffFileLoader implements LoaderInterface
     private function extractXliff1(\DOMDocument $dom, MessageCatalogue $catalogue, string $domain)
     {
         $xml = simplexml_import_dom($dom);
-        $encoding = strtoupper($dom->encoding);
+        $encoding = $dom->encoding ? strtoupper($dom->encoding) : null;
 
         $namespace = 'urn:oasis:names:tc:xliff:document:1.2';
         $xml->registerXPathNamespace('xliff', $namespace);

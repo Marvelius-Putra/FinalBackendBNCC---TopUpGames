@@ -19,7 +19,7 @@ class TinkerCommand extends Command
      * @var array
      */
     protected $commandWhitelist = [
-        'clear-compiled', 'down', 'env', 'inspire', 'migrate', 'optimize', 'up',
+        'clear-compiled', 'down', 'env', 'inspire', 'migrate', 'migrate:install', 'optimize', 'up',
     ];
 
     /**
@@ -129,7 +129,9 @@ class TinkerCommand extends Command
             $casters['Illuminate\Foundation\Application'] = 'Laravel\Tinker\TinkerCaster::castApplication';
         }
 
-        return $casters;
+        $config = $this->getLaravel()->make('config');
+
+        return array_merge($casters, (array) $config->get('tinker.casters', []));
     }
 
     /**

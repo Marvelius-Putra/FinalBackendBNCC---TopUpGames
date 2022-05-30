@@ -5,12 +5,14 @@
  *
  * (c) Fabien Potencier <fabien@symfony.com>
  *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/*
  * This code is partially based on the Rack-Cache library by Ryan Tomayko,
  * which is released under the MIT license.
  * (based on commit 02d2b48d75bcb63cf1c0c7149c077ad256542801)
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
  */
 
 namespace Symfony\Component\HttpKernel\HttpCache;
@@ -106,7 +108,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Gets the current store.
      *
-     * @return StoreInterface A StoreInterface instance
+     * @return StoreInterface
      */
     public function getStore()
     {
@@ -116,7 +118,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Returns an array of events that took place during processing of the last request.
      *
-     * @return array An array of events
+     * @return array
      */
     public function getTraces()
     {
@@ -143,7 +145,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Returns a log message for the events of the last request processing.
      *
-     * @return string A log message
+     * @return string
      */
     public function getLog()
     {
@@ -158,7 +160,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Gets the Request instance associated with the main request.
      *
-     * @return Request A Request instance
+     * @return Request
      */
     public function getRequest()
     {
@@ -168,7 +170,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Gets the Kernel instance.
      *
-     * @return HttpKernelInterface An HttpKernelInterface instance
+     * @return HttpKernelInterface
      */
     public function getKernel()
     {
@@ -178,7 +180,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Gets the Surrogate instance.
      *
-     * @return SurrogateInterface A Surrogate instance
+     * @return SurrogateInterface
      *
      * @throws \LogicException
      */
@@ -258,7 +260,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param bool $catch Whether to process exceptions
      *
-     * @return Response A Response instance
+     * @return Response
      */
     protected function pass(Request $request, bool $catch = false)
     {
@@ -272,7 +274,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param bool $catch Whether to process exceptions
      *
-     * @return Response A Response instance
+     * @return Response
      *
      * @throws \Exception
      *
@@ -320,7 +322,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param bool $catch Whether to process exceptions
      *
-     * @return Response A Response instance
+     * @return Response
      *
      * @throws \Exception
      */
@@ -369,7 +371,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param bool $catch Whether to process exceptions
      *
-     * @return Response A Response instance
+     * @return Response
      */
     protected function validate(Request $request, Response $entry, bool $catch = false)
     {
@@ -382,7 +384,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
         // add our cached last-modified validator
         if ($entry->headers->has('Last-Modified')) {
-            $subRequest->headers->set('if_modified_since', $entry->headers->get('Last-Modified'));
+            $subRequest->headers->set('If-Modified-Since', $entry->headers->get('Last-Modified'));
         }
 
         // Add our cached etag validator to the environment.
@@ -391,7 +393,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         $cachedEtags = $entry->getEtag() ? [$entry->getEtag()] : [];
         $requestEtags = $request->getETags();
         if ($etags = array_unique(array_merge($cachedEtags, $requestEtags))) {
-            $subRequest->headers->set('if_none_match', implode(', ', $etags));
+            $subRequest->headers->set('If-None-Match', implode(', ', $etags));
         }
 
         $response = $this->forward($subRequest, $catch, $entry);
@@ -432,7 +434,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param bool $catch Whether to process exceptions
      *
-     * @return Response A Response instance
+     * @return Response
      */
     protected function fetch(Request $request, bool $catch = false)
     {
@@ -444,8 +446,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         }
 
         // avoid that the backend sends no content
-        $subRequest->headers->remove('if_modified_since');
-        $subRequest->headers->remove('if_none_match');
+        $subRequest->headers->remove('If-Modified-Since');
+        $subRequest->headers->remove('If-None-Match');
 
         $response = $this->forward($subRequest, $catch);
 
@@ -465,7 +467,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      * @param bool          $catch Whether to catch exceptions or not
      * @param Response|null $entry A Response instance (the stale entry if present, null otherwise)
      *
-     * @return Response A Response instance
+     * @return Response
      */
     protected function forward(Request $request, bool $catch = false, Response $entry = null)
     {
@@ -538,7 +540,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Checks whether the cache entry is "fresh enough" to satisfy the Request.
      *
-     * @return bool true if the cache entry if fresh enough, false otherwise
+     * @return bool
      */
     protected function isFreshEnough(Request $request, Response $entry)
     {

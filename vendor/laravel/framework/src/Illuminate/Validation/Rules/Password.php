@@ -162,7 +162,7 @@ class Password implements Rule, DataAwareRule, ValidatorAwareRule
     /**
      * Set the performing validator.
      *
-     * @param \Illuminate\Contracts\Validation\Validator $validator
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
      * @return $this
      */
     public function setValidator($validator)
@@ -188,7 +188,7 @@ class Password implements Rule, DataAwareRule, ValidatorAwareRule
     /**
      * Sets the minimum size of the password.
      *
-     * @param  int $size
+     * @param  int  $size
      * @return $this
      */
     public static function min($size)
@@ -268,34 +268,39 @@ class Password implements Rule, DataAwareRule, ValidatorAwareRule
      */
     public function passes($attribute, $value)
     {
-        $validator = Validator::make($this->data, [
-            $attribute => 'string|min:'.$this->min,
-        ]);
+        $this->messages = [];
+
+        $validator = Validator::make(
+            $this->data,
+            [$attribute => 'string|min:'.$this->min],
+            $this->validator->customMessages,
+            $this->validator->customAttributes
+        )->after(function ($validator) use ($attribute, $value) {
+            if (! is_string($value)) {
+                return;
+            }
+
+            $value = (string) $value;
+
+            if ($this->mixedCase && ! preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/u', $value)) {
+                $validator->errors()->add($attribute, 'The :attribute must contain at least one uppercase and one lowercase letter.');
+            }
+
+            if ($this->letters && ! preg_match('/\pL/u', $value)) {
+                $validator->errors()->add($attribute, 'The :attribute must contain at least one letter.');
+            }
+
+            if ($this->symbols && ! preg_match('/\p{Z}|\p{S}|\p{P}/u', $value)) {
+                $validator->errors()->add($attribute, 'The :attribute must contain at least one symbol.');
+            }
+
+            if ($this->numbers && ! preg_match('/\pN/u', $value)) {
+                $validator->errors()->add($attribute, 'The :attribute must contain at least one number.');
+            }
+        });
 
         if ($validator->fails()) {
             return $this->fail($validator->messages()->all());
-        }
-
-        $value = (string) $value;
-
-        if ($this->mixedCase && ! preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/u', $value)) {
-            $this->fail('The :attribute must contain at least one uppercase and one lowercase letter.');
-        }
-
-        if ($this->letters && ! preg_match('/\pL/u', $value)) {
-            $this->fail('The :attribute must contain at least one letter.');
-        }
-
-        if ($this->symbols && ! preg_match('/\p{Z}|\p{S}|\p{P}/u', $value)) {
-            $this->fail('The :attribute must contain at least one symbol.');
-        }
-
-        if ($this->numbers && ! preg_match('/\pN/u', $value)) {
-            $this->fail('The :attribute must contain at least one number.');
-        }
-
-        if (! empty($this->messages)) {
-            return false;
         }
 
         if ($this->uncompromised && ! Container::getInstance()->make(UncompromisedVerifier::class)->verify([

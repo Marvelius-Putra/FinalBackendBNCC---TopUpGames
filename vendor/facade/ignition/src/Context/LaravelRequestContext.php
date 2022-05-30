@@ -3,6 +3,7 @@
 namespace Facade\Ignition\Context;
 
 use Facade\FlareClient\Context\RequestContext;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -55,22 +56,17 @@ class LaravelRequestContext extends RequestContext
         ];
     }
 
-    public function getRequest(): array
-    {
-        $properties = parent::getRequest();
-
-
-        if ($this->request->hasHeader('x-livewire') && $this->request->hasHeader('referer')) {
-            $properties['url'] = $this->request->header('referer');
-        }
-
-        return $properties;
-    }
-
     protected function getRouteParameters(): array
     {
         try {
-            return collect(optional($this->request->route())->parameters ?? [])->toArray();
+            return collect(optional($this->request->route())->parameters ?? [])
+                ->map(function ($parameter) {
+                    return $parameter instanceof Model ? $parameter->withoutRelations() : $parameter;
+                })
+                ->map(function ($parameter) {
+                    return method_exists($parameter, 'toFlare') ? $parameter->toFlare() : $parameter;
+                })
+                ->toArray();
         } catch (Throwable $e) {
             return [];
         }

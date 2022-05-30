@@ -1,4 +1,4 @@
 @ECHO OFF
 setlocal DISABLEDELAYEDEXPANSION
-SET BIN_TARGET=%~dp0/../nikic/php-parser/bin/php-parse
+SET BIN_TARGET=%~dp0/php-parse
 php "%BIN_TARGET%" %*

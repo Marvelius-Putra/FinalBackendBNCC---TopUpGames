@@ -50,11 +50,11 @@ class HtmlErrorRenderer implements ErrorRendererInterface
     public function __construct($debug = false, string $charset = null, $fileLinkFormat = null, string $projectDir = null, $outputBuffer = '', LoggerInterface $logger = null)
     {
         if (!\is_bool($debug) && !\is_callable($debug)) {
-            throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be a boolean or a callable, "%s" given.', __METHOD__, get_debug_type($debug)));
+            throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be a boolean or a callable, "%s" given.', __METHOD__, \gettype($debug)));
         }
 
         if (!\is_string($outputBuffer) && !\is_callable($outputBuffer)) {
-            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be a string or a callable, "%s" given.', __METHOD__, get_debug_type($outputBuffer)));
+            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be a string or a callable, "%s" given.', __METHOD__, \gettype($outputBuffer)));
         }
 
         $this->debug = $debug;
@@ -215,7 +215,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
     /**
      * Returns the link for a given file/line pair.
      *
-     * @return string|false A link or false
+     * @return string|false
      */
     private function getFileLink(string $file, int $line)
     {
@@ -262,8 +262,6 @@ class HtmlErrorRenderer implements ErrorRendererInterface
      * @param string $file       A file path
      * @param int    $line       The selected line number
      * @param int    $srcContext The number of displayed lines around or -1 for the whole file
-     *
-     * @return string An HTML string
      */
     private function fileExcerpt(string $file, int $line, int $srcContext = 3): string
     {

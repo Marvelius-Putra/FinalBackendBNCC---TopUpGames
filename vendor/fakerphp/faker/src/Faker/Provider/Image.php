@@ -79,6 +79,8 @@ class Image extends Base
      * Requires curl, or allow_url_fopen to be on in php.ini.
      *
      * @example '/path/to/dir/13b73edae8443990be1aa8f1a483bc27.png'
+     *
+     * @return bool|string
      */
     public static function image(
         $dir = null,
@@ -123,6 +125,11 @@ class Image extends Base
         } elseif (ini_get('allow_url_fopen')) {
             // use remote fopen() via copy()
             $success = copy($url, $filepath);
+
+            if (!$success) {
+                // could not contact the distant URL or HTTP error - fail silently.
+                return false;
+            }
         } else {
             return new \RuntimeException('The image formatter downloads an image from a remote HTTP server. Therefore, it requires that PHP can request remote hosts, either via cURL or fopen()');
         }

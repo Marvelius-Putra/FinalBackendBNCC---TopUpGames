@@ -11,7 +11,9 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sail:install {--with= : The services that should be included in the installation}';
+    protected $signature = 'sail:install
+                {--with= : The services that should be included in the installation}
+                {--devcontainer : Create a .devcontainer configuration directory}';
 
     /**
      * The console command description.
@@ -37,6 +39,10 @@ class InstallCommand extends Command
 
         $this->buildDockerCompose($services);
         $this->replaceEnvVariables($services);
+
+        if ($this->option('devcontainer')) {
+            $this->installDevContainer();
+        }
 
         $this->info('Sail scaffolding installed successfully.');
     }
@@ -97,6 +103,11 @@ class InstallCommand extends Command
         $dockerCompose = str_replace('{{services}}', $stubs, $dockerCompose);
         $dockerCompose = str_replace('{{volumes}}', $volumes, $dockerCompose);
 
+        // Replace Selenium with ARM base container on Apple Silicon...
+        if (in_array('selenium', $services) && php_uname('m') === 'arm64') {
+            $stubs = str_replace('selenium/standalone-chrome', 'seleniarm/standalone-chromium', $stubs);
+        }
+
         // Remove empty lines...
         $dockerCompose = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $dockerCompose);
 
@@ -133,6 +144,30 @@ class InstallCommand extends Command
             $environment .= "\nSCOUT_DRIVER=meilisearch";
             $environment .= "\nMEILISEARCH_HOST=http://meilisearch:7700\n";
         }
+
+        file_put_contents($this->laravel->basePath('.env'), $environment);
+    }
+
+    /**
+     * Install the devcontainer.json configuration file.
+     *
+     * @return void
+     */
+    protected function installDevContainer()
+    {
+        if (! is_dir($this->laravel->basePath('.devcontainer'))) {
+            mkdir($this->laravel->basePath('.devcontainer'), 0755, true);
+        }
+
+        file_put_contents(
+            $this->laravel->basePath('.devcontainer/devcontainer.json'),
+            file_get_contents(__DIR__.'/../../stubs/devcontainer.stub')
+        );
+
+        $environment = file_get_contents($this->laravel->basePath('.env'));
+
+        $environment .= "\nWWWGROUP=1000";
+        $environment .= "\nWWWUSER=1000\n";
 
         file_put_contents($this->laravel->basePath('.env'), $environment);
     }

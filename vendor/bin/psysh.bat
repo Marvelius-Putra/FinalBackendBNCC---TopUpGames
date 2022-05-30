@@ -1,4 +1,4 @@
 @ECHO OFF
 setlocal DISABLEDELAYEDEXPANSION
-SET BIN_TARGET=%~dp0/../psy/psysh/bin/psysh
+SET BIN_TARGET=%~dp0/psysh
 php "%BIN_TARGET%" %*
