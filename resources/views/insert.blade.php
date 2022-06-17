@@ -24,6 +24,7 @@
             <input type="file" class="form-control" required name="image">
         </div>
 
+        {{-- display error message --}}
         <div class="d-flex flex-column justify-content-center">
             <button type="submit" class="btn btn-outline-primary">Add Barang</button>
             @if($errors->any())

@@ -18,21 +18,21 @@ class registerController extends Controller
         // syarat data
         $validator = Validator::make($data,[
             "name" => "required|unique:users|min:3|max:40",
-            "email" => "required|unique:users|regex:/@gmail.com",
+            "email" => "required|unique:users|email",
             "password"=>"required|min:6|max:12",
-            "phone" => "required|"
+            "phone" => "required"
         ]);
         //jika tidak memenuhi syarat data
         if($validator->fails()){
             return back() -> withErrors($validator->errors());
         }
         // jika memenuhi syarat
-        $user = new User();        
+        $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = bcrypt($request->password);       
-        $user->phone = $request->phone;        
+        $user->password = bcrypt($request->password);
+        $user->phone_number = $request->phone;
         $user->save();
-        return redirect('/home');
+        return redirect('/kategori');
     }
 }

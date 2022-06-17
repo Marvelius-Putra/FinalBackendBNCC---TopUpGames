@@ -15,7 +15,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <title>Home</title>
+    <title>List Barang</title>
   </head>
   <body>
 
@@ -25,36 +25,36 @@
     @section('title', 'List Items')
     @section('content')
         <div class="row m-2 d-flex justify-content-center">
-        {{-- searching start --}}
-        <div class="d-flex justify-content-center mt-3" >
-            <form class="form-inline" action="/search" method="get">
-                <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search" />
-                <button class="btn btn-outline-dark">Search</button>
-            </form>
+            {{-- searching start --}}
+            <div class="d-flex justify-content-center mt-3" >
+                <form class="form-inline" action="/search" method="get">
+                    <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search" />
+                    <button class="btn btn-outline-dark">Search</button>
+                </form>
+            </div>
             {{-- searching end --}}
-        </div>
-        <div class="row m-2 d-flex justify-content-center">
 
             {{-- barang card start --}}
+            <div class="row m-2 d-flex justify-content-center">
             @foreach($barang as $b)
-            {{ method_field('put') }}
-            <div class="col col-sm-3" >
-                <div class="card bg-light mb-3 border border-warning">
-                    <div class="card-body">
-                        <div>
-                            <div class="m-3">
-                                <h4 class="card-title text-center">{{$b->name}}</h4>
-                                <img src="{{ url('public/images/'.$b->image) }}" alt=""style="height: 256px; width: 256px; margin-left:10px">
-                                <p class="card-subtitle text-center" style="margin-top:10px">Rp {{$b->harga}}</p>
-                                <p class="card-subtitle text-center">Available: {{$b->jumlah}}</p>
+                {{ method_field('put') }}
+                <div class="col col-sm-3" >
+                    <div class="card bg-light mb-3 border border-warning">
+                        <div class="card-body">
+                            <div>
+                                <div class="m-3">
+                                    <h4 class="card-title text-center">{{$b->name}}</h4>
+                                    <img src="{{ url('public/images/'.$b->image) }}" alt=""style="height: 256px; width: 256px; margin-left:10px">
+                                    <p class="card-subtitle text-center" style="margin-top:10px">Rp {{$b->harga}}</p>
+                                    <p class="card-subtitle text-center">Available: {{$b->jumlah}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            {{-- Security check --}}
-                            @auth
-                                @if(Auth::user()->role == 'member')
-                                    <a class="btn btn-primary mr-3" href="{{ route('add.to.cart', $b->id) }}">Add to Cart</a>
-                                @endif
+                            <div class="d-flex justify-content-center">
+                                {{-- Security check --}}
+                                @auth
+                                    @if(Auth::user()->role == 'member')
+                                        <a class="btn btn-primary mr-3" href="{{ route('add.to.cart', $b->id) }}">Add to Cart</a>
+                                    @endif
                                     @if(Auth::user()->role == 'admin')
                                         <a class="btn btn-primary mr-3" href="#">Details</a>
                                         <a class="btn btn-success mr-3" href="/update/{{$b->id}}">Update</a>
@@ -64,21 +64,19 @@
                                         </form>
                                     @endif
                             @endauth
+                            {{-- end security --}}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             @endforeach
-            {{-- courses card end --}}
+            {{-- barang card end --}}
         </div>
         <div class="m-5 d-flex justify-content-center">
-            {{-- {{$course->links()}} --}}
+            {{-- {{$barang->links()}} --}}
         </div>
-
     @endsection
-
     @extends('barangLayout')
     @section('content cart')
-
   </body>
 </html>

@@ -7,14 +7,14 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/kategori.css') }} ">
     <title>Home</title>
   </head>
   <body>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     {{-- navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light" >
         <div class="container">
             @auth
                 @if(Auth::user()->role == 'member')
@@ -36,15 +36,6 @@
                 <a class="nav-link active" aria-current="page" href="/kategori">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/about">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/course">Course</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/user">User</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link disabled"></a>
               </li>
             </ul>
@@ -58,17 +49,9 @@
     @section('content')
 
         <div class="row m-2 d-flex justify-content-center">
-        {{-- searching start --}}
-        <div class="d-flex justify-content-center mt-3" >
-            <form class="form-inline" action="/search" method="get">
-                <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search" />
-                <button class="btn btn-outline-dark">Search</button>
-            </form>
-            {{-- searching end --}}
-        </div>
-        <div class="row m-2 d-flex justify-content-center">
 
-            {{-- courses card start --}}
+        <div class="row m-2 d-flex justify-content-center">
+            {{-- kategori card start --}}
             @foreach($kategori as $k)
             <div class="col col-sm-3" >
                 <div class="card bg-light mb-3 border border-warning">
@@ -89,18 +72,17 @@
                                     <a class="btn btn-success mr-3" href="/barangList/{{$k->id}}">Edit</a>
                                 @endif
                             @endauth
+                            {{-- End Security check --}}
                         </div>
                     </div>
                 </div>
             </div>
             @endforeach
-            {{-- courses card end --}}
+            {{--kategori card end --}}
         </div>
         <div class="m-5 d-flex justify-content-center">
-            {{-- {{$course->links()}} --}}
+            {{-- {{kategori->links()}} --}}
         </div>
     @endsection
-
-
   </body>
 </html>

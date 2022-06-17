@@ -34,7 +34,7 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 
 Route::get('/', [registerController::class,'registerPage']);
-Route::get('/register', [registerController::class, 'register']);
+Route::post('/register', [registerController::class, 'register']);
 
 
 Route::get('/kategori', [KategoriController::class, 'showAllKategori']);

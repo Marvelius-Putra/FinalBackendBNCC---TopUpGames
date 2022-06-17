@@ -27,6 +27,7 @@
         </div>
 
         <div class="d-flex flex-column justify-content-center">
+            {{-- error message --}}
             <button type="submit" class="btn btn-outline-primary">Update</button>
             @if($errors->any())
             @foreach($errors->all() as $error)

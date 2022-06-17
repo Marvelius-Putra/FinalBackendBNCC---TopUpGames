@@ -1,6 +1,7 @@
 @extends('barangLayout')
-
 @section('content cart')
+
+{{-- make cart table --}}
 <table id="cart" class="table table-hover table-condensed">
     <thead>
         <tr>
@@ -11,6 +12,7 @@
             <th style="width:10%"></th>
         </tr>
     </thead>
+    {{-- table data temporary session after add cart --}}
     <tbody>
         @php $total = 0 @endphp
         @if(session('cart'))
@@ -36,13 +38,14 @@
             @endforeach
         @endif
     </tbody>
+    {{-- display total card --}}
     <tfoot>
         <tr>
             <td colspan="5" class="text-right"><h3><strong>Total Rp{{ $total }}</strong></h3></td>
         </tr>
         <tr>
             <td colspan="5" class="text-right">
-                <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+                <a href="{{ url('/kategori') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
                 <button class="btn btn-success">Checkout</button>
             </td>
         </tr>
@@ -51,32 +54,13 @@
 @endsection
 
 @section('scripts')
+
+{{-- remove data item from cart --}}
 <script type="text/javascript">
-
-    $(".update-cart").change(function (e) {
-        e.preventDefault();
-
-        var ele = $(this);
-
-        $.ajax({
-            url: '{{ route('update.cart') }}',
-            method: "patch",
-            data: {
-                _token: '{{ csrf_token() }}',
-                id: ele.parents("tr").attr("data-id"),
-                quantity: ele.parents("tr").find(".quantity").val()
-            },
-            success: function (response) {
-               window.location.reload();
-            }
-        });
-    });
 
     $(".remove-from-cart").click(function (e) {
         e.preventDefault();
-
         var ele = $(this);
-
         if(confirm("Are you sure want to remove?")) {
             $.ajax({
                 url: '{{ route('remove.from.cart') }}',
