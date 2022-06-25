@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }} ">
 </head>
 <body>
-
+<script src="{{ asset('css/login.js') }}"></script>
     {{-- login form --}}
     <div class="box">
         <img src="public/images/game.webp" alt="" class="logo">

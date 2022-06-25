@@ -1,6 +1,6 @@
 @extends('barangLayout')
 @section('content cart')
-
+<link rel="stylesheet" type="text/css" href="{{ asset('css/kategori.css') }} ">
 {{-- make cart table --}}
 <table id="cart" class="table table-hover table-condensed">
     <thead>
@@ -46,7 +46,7 @@
         <tr>
             <td colspan="5" class="text-right">
                 <a href="{{ url('/kategori') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
-                <button class="btn btn-success">Checkout</button>
+                <a class="btn btn-success" href='https://bncc.net'>Checkout</a>
             </td>
         </tr>
     </tfoot>

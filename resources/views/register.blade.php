@@ -6,10 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Register</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/register.css') }} ">
+
 </head>
 <body>
 
     {{-- Register form --}}
+    <script src="public/css/register.js"></script>
     <div class="box">
         <img src="public/images/game.webp" alt="" class="logo">
         <h3>Register</h1>

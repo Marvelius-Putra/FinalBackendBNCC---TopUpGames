@@ -8,17 +8,18 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/kategori.css') }} ">
+
     <title>Home</title>
   </head>
   <body>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    {{-- navbar --}}
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="{{ asset('css/owl.js') }}"></script>
+      {{-- navbar --}}
     <nav class="navbar navbar-expand-lg navbar-light" >
         <div class="container">
             @auth
                 @if(Auth::user()->role == 'member')
-                    <a class="navbar-brand" href="#">Navbar</a>
+                    <a class="navbar-brand" href="#">Marvel Shop</a>
                 @endif
                 @if(Auth::user()->role == 'admin')
                     <a class="navbar-brand" href="#">Navbar</a>
@@ -43,7 +44,20 @@
         </div>
       </nav>
     {{-- end navbar --}}
-
+    <div class="banner header-text">
+      <div class="owl-banner owl-carousel">
+        <div class="banner-item-01">
+        </div>
+        <div class="banner-item-02">
+          <div class="text-content">
+          </div>
+        </div>
+        <div class="banner-item-03">
+          <div class="text-content">
+          </div>
+        </div>
+      </div>
+    </div>
     @extends('master')
     @section('title', 'All Categories')
     @section('content')
@@ -84,5 +98,6 @@
             {{-- {{kategori->links()}} --}}
         </div>
     @endsection
+
   </body>
 </html>

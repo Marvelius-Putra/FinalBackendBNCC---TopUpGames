@@ -1,73 +1,136 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: bisque;
+}
+
 .thumbnail {
     position: relative;
     padding: 0px;
     margin-bottom: 20px;
 }
+
 .thumbnail img {
     width: 80%;
 }
-.thumbnail .caption{
+
+.thumbnail .caption {
     margin: 7px;
 }
-.main-section{
-    background-color: #F8F8F8;
+
+.main-section {
+    background-color: bisque;
 }
-.dropdown{
-    float:right;
+
+.dropdown {
+    float: right;
     padding-right: 30px;
 }
-.btn{
-    border:0px;
-    margin:10px 0px;
-    box-shadow:none !important;
+
+.btn {
+    border: 0px;
+    margin: 10px 0px;
+    box-shadow: none !important;
 }
- .dropdown .dropdown-menu{
-    padding:20px;
-    top:30px !important;
-    width:350px !important;
-    left:-110px !important;
-    box-shadow:0px 5px 30px black;
+
+.dropdown .dropdown-menu {
+    padding: 20px;
+    top: 30px !important;
+    width: 350px !important;
+    left: -110px !important;
+    box-shadow: 0px 5px 30px black;
 }
-.total-header-section{
-    border-bottom:1px solid #d2d2d2;
+
+.total-header-section {
+    border-bottom: 1px solid bisque;
 }
-.total-section p{
-    margin-bottom:20px;
+
+.total-section p {
+    margin-bottom: 20px;
 }
-.cart-detail{
-    padding:15px 0px;
+
+.cart-detail {
+    padding: 15px 0px;
 }
-.cart-detail-img img{
-    width:100%;
-    height:100%;
-    padding-left:15px;
+
+.cart-detail-img img {
+    width: 100%;
+    height: 100%;
+    padding-left: 15px;
 }
-.cart-detail-product p{
-    margin:0px;
-    color:#000;
-    font-weight:500;
+
+.cart-detail-product p {
+    margin: 0px;
+    color: #000;
+    font-weight: 500;
 }
-.cart-detail .price{
-    font-size:12px;
-    margin-right:10px;
-    font-weight:500;
+
+.cart-detail .price {
+    font-size: 12px;
+    margin-right: 10px;
+    font-weight: 500;
 }
-.cart-detail .count{
-    color:#C2C2DC;
+
+.cart-detail .count {
+    color: bisque;
 }
-.checkout{
-    border-top:1px solid #d2d2d2;
+
+.checkout {
+    border-top: 1px solid bisque;
     padding-top: 15px;
 }
-.checkout .btn-primary{
-    border-radius:50px;
-    height:50px;
+
+.checkout .btn-primary {
+    border-radius: 50px;
+    height: 50px;
 }
-.dropdown-menu:before{
+
+.dropdown-menu:before {
     content: " ";
-    position:absolute;
-    top:-20px;
-    right:50px;
-    border:10px solid transparent;
-    border-bottom-color:#fff;
+    position: absolute;
+    top: -20px;
+    right: 50px;
+    border: 10px solid transparent;
+    border-bottom-color: bisque;
+}
+
+.card-body {
+    background-color: aquamarine;
+}
+
+hr {
+    background-color: black;
+    margin: 0%;
+}
+
+header {
+    position: -webkit-sticky;
+    position: sticky;
+    padding-top: 1%;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10000000000;
+}
+
+.row {
+    background-color: bisque;
+    width: 100%;
+}
+
+.col-lg-12,
+.navbar {
+    background-color: white;
+    position: -webkit-sticky;
+    position: sticky;
+    padding-top: 1%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10000000000;
+}
+
+.col-lg-12,
+.navbar a {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
